@@ -4,10 +4,15 @@ import { Fragment } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const [who, setWho] = useState("");
-const [bridename, setBridename] = useState("");
-const [groomname, setGroomname] = useState("");
-const [duration, setDuration] = useState("");
+  const [tone, setTone] = useState("");
+  const [groom, setGroom] = useState("");
+  const [bride, setBride] = useState("");
+  const [duration, setDuration] = useState("");
+  const [metstory, setMetstory] = useState("");
+  const [feeling, setFeeling] = useState("");
+  const [times123, setTimes123] = useState("");
+  const [adventures, setAdventures] = useState("");
+  const [future, setFuture] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -19,10 +24,15 @@ const [duration, setDuration] = useState("");
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ 
-          who: who,
-          bridename: bridename,
-          groomname: groomname,
-          duration: duration
+          tone: tone,
+          groom: groom,
+          bride: bride,
+          duration: duration,
+          metstory: metstory,
+          feeling: feeling,
+          times123: times123,
+          adventures: adventures,
+          future: future
         }),
       });
 
@@ -32,10 +42,15 @@ const [duration, setDuration] = useState("");
       }
 
       setResult(data.result);
-      setWho("");
-      setBridename("");
-      setGroomname("");
+      setTone("");
+      setGroom("");
+      setBride("");
       setDuration("");
+      setMetstory("");
+      setFeeling("");
+      setTimes123("");
+      setAdventures("");
+      setFuture("");
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -46,7 +61,7 @@ const [duration, setDuration] = useState("");
   return (
     <div>
       <Head>
-        <title>Wedding Speech Generator</title>
+        <title>Wedding Speech Generator - Groom</title>
         <link rel="icon" href="\AI_SPEECHES.png" />
       </Head>
 
@@ -56,32 +71,58 @@ const [duration, setDuration] = useState("");
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            name="who"
-            placeholder="Who is Giving This Speech?"
-            value={who}
-            onChange={(e) => setWho(e.target.value)}
-          />
+            name="tone"
+            placeholder="What is the Tone of this Speech?"
+            value={tone}
+            onChange={(e) => setTone(e.target.value)}/>
           <input
             type="text"
-            name="bridename"
-            placeholder="What is the Bride's Name?"
-            value={bridename}
-            onChange={(e) => setBridename(e.target.value)}
-          />
-          <input
-            type="text"
-            name="groomname"
+            name="groom"
             placeholder="What is the Groom's Name?"
-            value={groomname}
-            onChange={(e) => setGroomname(e.target.value)}
-          />
+            value={groom}
+            onChange={(e) => setGroom(e.target.value)}/>
+          <input
+            type="text"
+            name="bride"
+            placeholder="What is the Bride's Name?"
+            value={bride}
+            onChange={(e) => setBride(e.target.value)}/>
           <input
             type="text"
             name="duration"
-            placeholder="How long have they known the couple?"
+            placeholder="How long were you engaged?"
             value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-          />
+            onChange={(e) => setDuration(e.target.value)}/>
+            <input
+            type="text"
+            name="metstory"
+            placeholder="How did you meet your Bride?"
+            value={metstory}
+            onChange={(e) => setMetstory(e.target.value)}/>
+          <input
+            type="text"
+            name="feeling"
+            placeholder="How did you feel about asking her Father for his blessing?"
+            value={feeling}
+            onChange={(e) => setFeeling(e.target.value)}/>
+          <input
+            type="text"
+            name="times123"
+            placeholder="List all the times the Bride has been there for you?"
+            value={times123}
+            onChange={(e) => setTimes123(e.target.value)}/>
+          <input
+            type="text"
+            name="adventures"
+            placeholder="What are some adventures you've been on together?"
+            value={adventures}
+            onChange={(e) => setAdventures(e.target.value)}/>
+             <input
+            type="text"
+            name="future"
+            placeholder="What are your plans for the future?"
+            value={future}
+            onChange={(e) => setFuture(e.target.value)}/>
           <input type="submit" value="Generate Speech" />
         </form>
         <div className={styles.result}>

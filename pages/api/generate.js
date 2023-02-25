@@ -15,9 +15,9 @@ export default async function (req, res) {
     return;
   }
 
-  const { who, bridename, groomname, duration } = req.body;
+  const { tone, groom, bride, duration, metstory, feeling, times123, adventures, future } = req.body;
 
-  if (!who || !bridename || !groomname || !duration) {
+  if (!tone || !groom || !bride || !duration || !metstory || !feeling || !times123 || !adventures || !future) {
     res.status(400).json({
       error: {
         message: "Please enter all required inputs",
@@ -28,10 +28,10 @@ export default async function (req, res) {
 
   try {
     const completion = await openai.createCompletion({
-      model:"davinci:ft-personal:wedding-speech-generator-2023-02-04-16-34-03",
-      prompt: generatePrompt(who, bridename, groomname, duration),
+      model:"text-davinci-003",
+      prompt: generatePrompt(tone, groom, bride, duration, metstory, feeling, times123, adventures, future),
       temperature: 0.8,
-      max_tokens: 1800,
+      max_tokens: 1500,
     });
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch(error) {
@@ -50,13 +50,19 @@ export default async function (req, res) {
   }
 }
 
-function generatePrompt(who, bridename, groomname, duration) {
+function generatePrompt(tone, groom, bride, duration, metstory, feeling, times123, adventures, future) {
   return `
-  Who: ${who}
-  Bridename: ${bridename}
-  Groomname: ${groomname}
-  Duration: ${duration}
+  tone: ${tone}
+  groom: ${groom}
+  bride: ${bride}
+  duration: ${duration}
+  metstory: ${metstory}
+  feeling: ${feeling}
+  times123: ${times123}
+  adventures: ${adventures}
+  future: ${future}
+  
+  Using British English, write out a complete and detailed, ${tone} Wedding Speech to be given by the Groom whose name is ${groom}. The name of his Bride, the person he married today, is ${bride}. ${groom} and ${bride} have been engaged for ${duration} and he will mention this fact in the speech. The Speech must include these details from this story about how ${bride} and ${groom} first met ${metstory}. ${groom} will talk about how excited he has been feeling about this big day, and as well as how nervous he was until he saw ${bride} in her dress for the first time. ${groom} will talk about how he met the Bride's family for the first time as well as how he felt ${feeling} about asking ${bride}'s father for his blessing. ${groom} will lavish praise on ${bride} throughout the speech and thank her for all the times she was there for him, which were: ${times123}. The Groom will also talk about how great the Bride is with his own family, and that he is very proud of her. The Groom will talk about their adventures together ${adventures} as well as their plans for the future ${future}. The speech will wrap up with the Groom thanking everybody for attending, making a friendly comment about the Bridesmaids and his Best Man and then finally finishing with a heartfelt toast to his new wife ${bride} Write out the entire Speech in great detail and be as ${tone} throughout:
 
-  SPEECH OUTLINE:
 `;
 }
